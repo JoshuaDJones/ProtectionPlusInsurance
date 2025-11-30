@@ -19,17 +19,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _claimRepository = claimRepository;
         }
 
-        public async Task<Result> CreateClaimAdjusterAsync(int claimId, int adjusterId, DateTime assignedDate, CancellationToken ct = default)
+        public async Task<Result<int>> CreateClaimAdjusterAsync(int claimId, int adjusterId, DateTime assignedDate, CancellationToken ct = default)
         {
             var adjuster = await _adjusterRepository.GetByIdAsync(adjusterId, ct);
 
             if (adjuster is null)
-                return Result.Fail(new Error("Adjuster.NotFound", "Adjuster does not exist"));
+                return Result<int>.Fail(new Error("Adjuster.NotFound", "Adjuster does not exist"));
 
             var claim = await _claimRepository.GetByIdAsync(claimId, ct);
 
             if (claim is null)
-                return Result.Fail(new Error("Claim.NotFound", "Claim does not exist"));
+                return Result<int>.Fail(new Error("Claim.NotFound", "Claim does not exist"));
 
             var claimAdjuster = new ClaimAdjuster
             {
@@ -38,14 +38,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 AssignedDate = assignedDate,
             };
 
-            await _claimAdjusterRepository.CreateAsync(claimAdjuster, ct);
+            var claimAdjusterId = await _claimAdjusterRepository.CreateAsync(claimAdjuster, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(claimAdjusterId);
         }
 
         public async Task<Result> DeleteClaimAdjusterAsync(int claimAdjusterId, CancellationToken ct = default)
         {
-            await _claimAdjusterRepository.DeleteAsync(claimAdjusterId, ct);
+            var affectedRows = await _claimAdjusterRepository.DeleteAsync(claimAdjusterId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("ClaimAdjuster.NotFound", "Claim adjuster does not exist."));
 
             return Result.Ok();
         }
@@ -88,7 +91,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 AssignedDate = assignedDate,
             };
 
-            await _claimAdjusterRepository.UpdateAsync(claimAdjuster, ct);
+            var affectedRows = await _claimAdjusterRepository.UpdateAsync(claimAdjuster, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("ClaimAdjuster.NotFound", "Claim adjuster does not exist."));
 
             return Result.Ok();
         }

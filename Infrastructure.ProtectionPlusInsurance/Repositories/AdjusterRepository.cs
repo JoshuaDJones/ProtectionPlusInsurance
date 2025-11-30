@@ -13,7 +13,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sqlExecutor;
         }
 
-        public async Task CreateAsync(Adjuster entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(Adjuster entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -23,10 +23,10 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@Phone", entity.Phone }
             };
 
-            await _sql.ExecuteAsync("CreateAdjuster", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreateAdjuster", parameters, ct);
         }
 
-        public async Task UpdateAsync(Adjuster entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(Adjuster entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -37,17 +37,17 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@Phone", entity.Phone }
             };
 
-            await _sql.ExecuteAsync("UpdateAdjuster", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdateAdjuster", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@AdjusterId", id }
             };
 
-            await _sql.ExecuteAsync("DeleteAdjuster", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeleteAdjuster", parameters, ct);
         }
 
         public async Task<Adjuster?> GetByIdAsync(int id, CancellationToken ct = default)

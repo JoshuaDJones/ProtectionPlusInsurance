@@ -22,7 +22,9 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DELETE FROM Adjuster
-	WHERE AdjusterId = @AdjusterId
+	WHERE AdjusterId = @AdjusterId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

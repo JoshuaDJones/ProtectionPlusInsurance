@@ -40,7 +40,9 @@ BEGIN
 		@Amount,
 		@PaymentDate,
 		@ReferenceNumber
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS ClaimPaymentId;
 END
 GO
 

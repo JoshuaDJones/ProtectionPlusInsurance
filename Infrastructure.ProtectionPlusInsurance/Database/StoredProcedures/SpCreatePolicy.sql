@@ -50,6 +50,8 @@ BEGIN
         @EffectiveDate,
         @ExpirationDate
     );
+
+    SELECT SCOPE_IDENTITY() AS PolicyId;
 END
 GO
 

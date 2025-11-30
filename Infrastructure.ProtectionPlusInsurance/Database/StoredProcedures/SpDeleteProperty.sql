@@ -23,6 +23,8 @@ BEGIN
 
     DELETE FROM Property
 	WHERE PropertyId = @PropertyId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

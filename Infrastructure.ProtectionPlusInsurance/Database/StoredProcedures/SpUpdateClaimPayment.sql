@@ -32,6 +32,8 @@ BEGIN
 		Amount = @Amount,
 		PaymentDate = @PaymentDate,
 		ReferenceNumber = @ReferenceNumber;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

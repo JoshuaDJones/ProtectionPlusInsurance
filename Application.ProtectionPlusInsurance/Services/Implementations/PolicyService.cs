@@ -22,24 +22,24 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _policyRepository = policyRepository;
         }
 
-        public async Task<Result> CreatePolicyAsync(int policyHolderId, int policyStatusId, int propertyId,
+        public async Task<Result<int>> CreatePolicyAsync(int policyHolderId, int policyStatusId, int propertyId,
             string policyNumber, decimal coverageAmount, decimal deductible, DateTime effectiveDate,
             DateTime expirationDate, CancellationToken ct = default)
         {
             var policyHolder = await _policyHolderRepository.GetByIdAsync(policyHolderId, ct);
 
             if (policyHolder is null)
-                return Result.Fail(new Error("PolicyHolder.NotFound", "Policy holder does not exist."));
+                return Result<int>.Fail(new Error("PolicyHolder.NotFound", "Policy holder does not exist."));
 
             var policyStatus = await _policyStatusRepository.GetByIdAsync(policyStatusId, ct);
 
             if (policyStatus is null)
-                return Result.Fail(new Error("PolicyStatus.NotFound", "Policy status does not exist."));
+                return Result<int>.Fail(new Error("PolicyStatus.NotFound", "Policy status does not exist."));
 
             var property = await _propertyRepository.GetByIdAsync(propertyId, ct);
 
             if (property is null)
-                return Result.Fail(new Error("Property.NotFound", "Property does not exist"));
+                return Result<int>.Fail(new Error("Property.NotFound", "Property does not exist"));
 
             var policy = new Policy
             {
@@ -53,14 +53,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ExpirationDate = expirationDate,
             };
 
-            await _policyRepository.CreateAsync(policy, ct);
+            var policyId = await _policyRepository.CreateAsync(policy, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(policyId);
         }
 
         public async Task<Result> DeletePolicyAsync(int policyId, CancellationToken ct = default)
         {
-            await _policyRepository.DeleteAsync(policyId, ct);
+            var affectedRows = await _policyRepository.DeleteAsync(policyId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Policy.NotFound", "Policy does not exist."));
 
             return Result.Ok();
         }
@@ -113,7 +116,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ExpirationDate = expirationDate,
             };
 
-            await _policyRepository.UpdateAsync(policy, ct);
+            var affectedRows = await _policyRepository.UpdateAsync(policy, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Policy.NotFound", "Policy does not exist."));
 
             return Result.Ok();
         }

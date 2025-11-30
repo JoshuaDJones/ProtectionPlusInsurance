@@ -38,6 +38,8 @@ BEGIN
 		@Email,
 		@Phone
 	);
+
+	SELECT SCOPE_IDENTITY() AS PolicyHolderId;
 END
 GO
 

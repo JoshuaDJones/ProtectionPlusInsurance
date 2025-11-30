@@ -15,7 +15,7 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _policyHolderRepository = policyHolderRepository;
         }
 
-        public async Task<Result> CreatePolicyHolderAsync(string firstName, string lastName, string email, 
+        public async Task<Result<int>> CreatePolicyHolderAsync(string firstName, string lastName, string email, 
             string phone, DateTime createdDate, CancellationToken ct = default)
         {
             var policyHolder = new PolicyHolder
@@ -27,14 +27,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 CreatedDate = createdDate,
             };
 
-            await _policyHolderRepository.CreateAsync(policyHolder, ct);
+            var policyHolderId = await _policyHolderRepository.CreateAsync(policyHolder, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(policyHolderId);
         }
 
         public async Task<Result> DeletePolicyHolderAsync(int policyHolderId, CancellationToken ct = default)
         {
-            await _policyHolderRepository.DeleteAsync(policyHolderId, ct);
+            var affectedRows = await _policyHolderRepository.DeleteAsync(policyHolderId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("PolicyHolder.NotFound", "Policy holder does not exist."));
 
             return Result.Ok();
         }
@@ -69,7 +72,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 CreatedDate = createdDate,
             };
 
-            await _policyHolderRepository.UpdateAsync(policyHolder, ct);
+            var affectedRows = await _policyHolderRepository.UpdateAsync(policyHolder, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("PolicyHolder.NotFound", "Policy holder does not exist."));
 
             return Result.Ok();
         }

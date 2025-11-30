@@ -13,7 +13,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sqlExecutor;
         }
 
-        public async Task CreateAsync(Incident entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(Incident entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -23,10 +23,10 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@Description", entity.Description }
             };
 
-            await _sql.ExecuteAsync("CreateIncident", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreateIncident", parameters, ct);
         }
 
-        public async Task UpdateAsync(Incident entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(Incident entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -37,17 +37,17 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@Description", entity.Description }
             };
 
-            await _sql.ExecuteAsync("UpdateIncident", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdateIncident", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@IncidentId", id }
             };
 
-            await _sql.ExecuteAsync("DeleteIncident", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeleteIncident", parameters, ct);
         }
 
         public async Task<Incident?> GetByIdAsync(int id, CancellationToken ct = default)

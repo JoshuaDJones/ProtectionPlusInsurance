@@ -13,7 +13,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sqlExecutor;
         }
 
-        public async Task CreateAsync(Policy entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(Policy entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -27,10 +27,10 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@ExpirationDate", entity.ExpirationDate }
             };
 
-            await _sql.ExecuteAsync("CreatePolicy", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreatePolicy", parameters, ct);
         }
 
-        public async Task UpdateAsync(Policy entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(Policy entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -45,17 +45,17 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@ExpirationDate", entity.ExpirationDate }
             };
 
-            await _sql.ExecuteAsync("UpdatePolicy", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdatePolicy", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@PolicyId", id }
             };
 
-            await _sql.ExecuteAsync("DeletePolicy", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeletePolicy", parameters, ct);
         }
 
         public async Task<Policy?> GetByIdAsync(int id, CancellationToken ct = default)

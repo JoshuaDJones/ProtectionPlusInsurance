@@ -23,5 +23,7 @@ BEGIN
     UPDATE ClaimStatus
 	SET StatusName = @StatusName
 	WHERE ClaimStatusId = @ClaimStatusId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

@@ -22,5 +22,7 @@ BEGIN
 
 	DELETE FROM PropertyType
 	WHERE PropertyTypeId = @PropertyTypeId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

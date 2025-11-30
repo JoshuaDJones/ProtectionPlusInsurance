@@ -26,7 +26,9 @@ BEGIN
 	SET ClaimId = @ClaimId,
 		AdjusterId = @AdjusterId,
 		AssignedDate = @AssignedDate
-	WHERE ClaimAdjusterId = @ClaimAdjusterId
+	WHERE ClaimAdjusterId = @ClaimAdjusterId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

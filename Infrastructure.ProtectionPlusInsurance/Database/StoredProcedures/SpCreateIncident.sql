@@ -37,7 +37,9 @@ BEGIN
 		@IncidentTypeId,
 		@DateOfIncident,
 		@Description
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS IncidentId;
 END
 GO
 

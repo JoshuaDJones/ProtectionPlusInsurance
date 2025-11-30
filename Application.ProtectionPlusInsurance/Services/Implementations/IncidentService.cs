@@ -19,18 +19,18 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _incidentTypeRepository = incidentTypeRepository;
         }
 
-        public async Task<Result> CreateIncidentAsync(int policyId, int incidentTypeId, 
+        public async Task<Result<int>> CreateIncidentAsync(int policyId, int incidentTypeId, 
             DateTime dateOfIncident, string? description, DateTime ReportedDate, CancellationToken ct = default)
         {
             var policy = await _policyRepository.GetByIdAsync(policyId, ct);
 
             if (policy is null)
-                return Result.Fail(new Error("Policy.NotFound", "Policy does not exist."));
+                return Result<int>.Fail(new Error("Policy.NotFound", "Policy does not exist."));
 
             var incidentType = await _incidentTypeRepository.GetByIdAsync(incidentTypeId, ct);
 
             if (incidentType is null)
-                return Result.Fail(new Error("Incident.NotFound", "Incident does not exist."));
+                return Result<int>.Fail(new Error("Incident.NotFound", "Incident does not exist."));
 
             var incident = new Incident
             {
@@ -41,14 +41,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ReportedDate = ReportedDate
             };
 
-            await _incidentRepository.CreateAsync(incident, ct);
+            var incidentId = await _incidentRepository.CreateAsync(incident, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(incidentId);
         }
 
         public async Task<Result> DeleteIncidentAsync(int incidentId, CancellationToken ct = default)
         {
-            await _incidentRepository.DeleteAsync(incidentId, ct);
+            var affectedRows = await _incidentRepository.DeleteAsync(incidentId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Incident.NotFound", "Incident does not exist."));
 
             return Result.Ok();
         }
@@ -93,7 +96,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ReportedDate = ReportedDate
             };
 
-            await _incidentRepository.UpdateAsync(incident, ct);
+            var affectedRows = await _incidentRepository.UpdateAsync(incident, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Incident.NotFound", "Incident does not exist."));
 
             return Result.Ok();
         }

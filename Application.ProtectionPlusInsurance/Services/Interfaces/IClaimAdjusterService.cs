@@ -11,7 +11,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
         Task<Result<ClaimAdjusterDto?>> GetClaimAdjusterAsync(int claimAdjusterId, 
             CancellationToken ct = default);
 
-        Task<Result> CreateClaimAdjusterAsync(int claimId, int adjusterId, DateTime assignedDate, 
+        Task<Result<int>> CreateClaimAdjusterAsync(int claimId, int adjusterId, DateTime assignedDate, 
             CancellationToken ct = default);
 
         Task<Result> UpdateClaimAdjusterAsync(int claimAdjusterId, int claimId, int adjusterId, 

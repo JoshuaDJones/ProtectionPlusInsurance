@@ -37,7 +37,9 @@ BEGIN
 		@LastName,
 		@Email,
 		@Phone
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS AdjusterId;
 END
 GO
 

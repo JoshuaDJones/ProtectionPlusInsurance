@@ -31,7 +31,9 @@ BEGIN
 	(
 		@ClaimId,
 		@AdjusterId
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS ClaimAdjusterId;
 END
 GO
 

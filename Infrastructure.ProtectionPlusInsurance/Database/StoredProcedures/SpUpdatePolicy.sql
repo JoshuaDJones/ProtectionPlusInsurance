@@ -36,7 +36,9 @@ BEGIN
 		Deductible = @Deductible,
 		EffectiveDate = @EffectiveDate,
 		ExpirationDate = @ExpirationDate
-	WHERE PolicyId = @PolicyId
+	WHERE PolicyId = @PolicyId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

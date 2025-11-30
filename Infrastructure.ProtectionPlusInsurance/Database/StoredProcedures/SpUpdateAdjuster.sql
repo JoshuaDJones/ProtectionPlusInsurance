@@ -30,7 +30,9 @@ BEGIN
 		LastName = @LastName,
 		Email = @Email,
 		Phone = @Phone
-	WHERE AdjusterId = @AdjusterId
+	WHERE AdjusterId = @AdjusterId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

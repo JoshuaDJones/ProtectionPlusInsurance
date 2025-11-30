@@ -23,6 +23,8 @@ BEGIN
 
 	DELETE FROM Policy 
 	WHERE PolicyId = @PolicyId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

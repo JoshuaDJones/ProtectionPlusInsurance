@@ -21,5 +21,7 @@ BEGIN
 
     DELETE FROM ClaimStatus
 	WHERE ClaimStatusId = @ClaimStatusId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

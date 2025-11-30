@@ -15,10 +15,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _adjusterRepository = adjusterRepository;
         }
 
-        public async Task<Result> CreateAdjusterAsync(string firstName, string lastName, string email, 
+        public async Task<Result<int>> CreateAdjusterAsync(string firstName, string lastName, string email, 
             string phone, CancellationToken ct = default)
         {
-            await _adjusterRepository.CreateAsync(new Adjuster
+            var adjusterId = await _adjusterRepository.CreateAsync(new Adjuster
             {
                 FirstName = firstName,
                 LastName = lastName,
@@ -26,12 +26,15 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 Phone = phone,
             }, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(adjusterId);
         }
 
         public async Task<Result> DeleteAdjusterAsync(int adjusterId, CancellationToken ct = default)
         {
-            await _adjusterRepository.DeleteAsync(adjusterId, ct);
+            var affectedRows = await _adjusterRepository.DeleteAsync(adjusterId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Adjuster.NotFound", "Adjuster does not exist."));
 
             return Result.Ok();
         }
@@ -68,7 +71,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 Phone = phone,
             };
 
-            await _adjusterRepository.UpdateAsync(adjuster, ct);
+            var affectedRows = await _adjusterRepository.UpdateAsync(adjuster, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Adjuster.NotFound", "Adjuster does not exist."));
 
             return Result.Ok();
         }

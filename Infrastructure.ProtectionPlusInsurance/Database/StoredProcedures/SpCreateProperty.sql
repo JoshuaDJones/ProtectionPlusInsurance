@@ -46,7 +46,9 @@ BEGIN
 		@Zip,
 		@PropertyTypeId,
 		@YearBuilt
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS PropertId;
 END
 GO
 

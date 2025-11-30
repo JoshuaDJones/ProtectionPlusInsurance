@@ -11,7 +11,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
 
         Task<Result<PolicyHolderDto?>> GetPolicyHolderAsync(int policyHolderId, CancellationToken ct = default);
 
-        Task<Result> CreatePolicyHolderAsync(string firstName, string lastName, string email, 
+        Task<Result<int>> CreatePolicyHolderAsync(string firstName, string lastName, string email, 
             string phone, DateTime createdDate, CancellationToken ct = default);
 
         Task<Result> UpdatePolicyHolderAsync(int policyHolderId, string firstName, string lastName, 

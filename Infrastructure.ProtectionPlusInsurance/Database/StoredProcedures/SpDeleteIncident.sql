@@ -23,6 +23,8 @@ BEGIN
 
     DELETE FROM Incident
 	WHERE IncidentId = @IncidentId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

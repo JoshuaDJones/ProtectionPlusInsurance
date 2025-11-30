@@ -23,6 +23,8 @@ BEGIN
 
     DELETE FROM ClaimAdjuster
 	WHERE ClaimAdjusterId = @ClaimAdjusterId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

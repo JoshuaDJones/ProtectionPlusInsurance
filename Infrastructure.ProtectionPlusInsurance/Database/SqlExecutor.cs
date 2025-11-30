@@ -55,5 +55,27 @@ namespace Infrastructure.ProtectionPlusInsurance.Database
             await conn.OpenAsync(ct);
             return await cmd.ExecuteNonQueryAsync(ct);
         }
+
+        public async Task<T> ExecuteScalarAsync<T>(
+            string storedProc,
+            Dictionary<string, object> parameters,
+            CancellationToken ct = default)
+        {
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(storedProc, conn)
+            {
+                CommandType = CommandType.StoredProcedure
+            };
+
+            foreach(var param in parameters)
+                cmd.Parameters.AddWithValue(param.Key, param.Value ?? DBNull.Value);
+
+            await conn.OpenAsync(ct);
+
+            object? result = await cmd.ExecuteScalarAsync(ct);
+            return (result == null || result == DBNull.Value)
+                ? default!
+                : (T)Convert.ChangeType(result, typeof(T));
+        }
     }
 }

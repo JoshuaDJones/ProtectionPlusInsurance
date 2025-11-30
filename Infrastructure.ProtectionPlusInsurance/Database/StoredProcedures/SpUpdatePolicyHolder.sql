@@ -31,6 +31,8 @@ BEGIN
 		Email = @Email,
 		Phone = @Phone
 	WHERE PolicyHolderId = @PolicyHolderId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

@@ -9,7 +9,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
 
         Task<Result<PropertyDto?>> GetPropertyByIdAsync(int propertyId,  CancellationToken ct = default);
 
-        Task<Result> CreatePropertyAsync(int policyHolderId, string address, string city, string state, string zip, 
+        Task<Result<int>> CreatePropertyAsync(int policyHolderId, string address, string city, string state, string zip, 
             int propertyTypeId, int? yearBuilt, CancellationToken ct = default);
 
         Task<Result> UpdatePropertyAsync(int propertyId, int policyHolderId, string address, string city, string state, 

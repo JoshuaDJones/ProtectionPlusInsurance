@@ -23,6 +23,8 @@ BEGIN
 
     DELETE FROM ClaimPayment
 	WHERE ClaimPaymentId = @ClaimPaymentId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

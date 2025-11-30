@@ -44,7 +44,7 @@ namespace Api.ProtectionPlusInsurance.Controllers
             var result = await _adjusterService.CreateAdjusterAsync(req.FirstName, req.LastName, req.Email, req.Phone, ct);
 
             if (result.Success)
-                return Ok();
+                return Ok(result.Value);
 
             return BadRequest(result.Error);
         }

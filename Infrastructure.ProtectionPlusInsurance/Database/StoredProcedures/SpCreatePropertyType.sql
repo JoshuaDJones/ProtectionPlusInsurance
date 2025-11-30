@@ -28,6 +28,8 @@ BEGIN
 	(
 		@TypeName
 	);
+
+	SELECT SCOPE_IDENTITY() AS PropertyTypeId;
 END
 GO
 

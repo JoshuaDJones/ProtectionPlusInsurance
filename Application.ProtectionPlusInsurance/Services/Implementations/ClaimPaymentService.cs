@@ -17,18 +17,18 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _claimRepository = claimRepository;
         }
 
-        public async Task<Result> CreateClaimPaymentAsync(int claimId, int claimPaymentMethodId, 
+        public async Task<Result<int>> CreateClaimPaymentAsync(int claimId, int claimPaymentMethodId, 
             decimal amount, DateTime paymentDate, string? referenceNumber, CancellationToken ct = default)
         {
             var claim = await _claimRepository.GetByIdAsync(claimId, ct);
 
             if(claim is null)
-                return Result.Fail(new Error("Claim.NotFound", "Claim does not exist"));
+                return Result<int>.Fail(new Error("Claim.NotFound", "Claim does not exist"));
 
             var claimPaymentMethod = await _claimPaymentRepository.GetByIdAsync(claimPaymentMethodId, ct);
 
             if (claimPaymentMethod is null)
-                return Result.Fail(new Error("ClaimPaymentMethod.NotFound", "Claim payment method does not exist."));
+                return Result<int>.Fail(new Error("ClaimPaymentMethod.NotFound", "Claim payment method does not exist."));
 
             var claimPayment = new ClaimPayment
             {
@@ -39,14 +39,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ReferenceNumber = referenceNumber,
             };
 
-            await _claimPaymentRepository.CreateAsync(claimPayment, ct);
+            var claimPaymentId = await _claimPaymentRepository.CreateAsync(claimPayment, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(claimPaymentId);
         }
 
         public async Task<Result> DeleteClaimPaymentAsync(int claimPaymentId, CancellationToken ct = default)
         {
-            await _claimPaymentRepository.DeleteAsync(claimPaymentId, ct);
+            var affectedRows = await _claimPaymentRepository.DeleteAsync(claimPaymentId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("ClaimPayment.NotFound", "Claim payment does not exist."));
 
             return Result.Ok();
         }
@@ -94,7 +97,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ReferenceNumber = referenceNumber,
             };
 
-            await _claimPaymentRepository.CreateAsync(claimPayment, ct);
+            var affectedRows = await _claimPaymentRepository.UpdateAsync(claimPayment, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("ClaimPayment.NotFound", "Claim payment does not exist."));
 
             return Result.Ok();
         }

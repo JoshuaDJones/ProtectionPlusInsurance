@@ -24,5 +24,7 @@ BEGIN
     UPDATE PolicyStatus
 	SET StatusName = @StatusName
 	WHERE PolicyStatusId = @PolicyStatusId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

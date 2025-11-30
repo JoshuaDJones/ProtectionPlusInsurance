@@ -27,5 +27,7 @@ BEGIN
 	(
 		@StatusName
 	);
+
+	SELECT SCOPE_IDENTITY() AS ClaimStatusId;
 END
 GO

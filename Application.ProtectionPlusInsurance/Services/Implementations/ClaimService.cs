@@ -18,17 +18,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _claimRepository = claimRepository;
         }
 
-        public async Task<Result> CreateClaimAsync(int incidentId, int claimStatusId, string claimNumber, decimal? estimatedLossAmount, decimal? approvedPayoutAmount, CancellationToken ct = default)
+        public async Task<Result<int>> CreateClaimAsync(int incidentId, int claimStatusId, string claimNumber, decimal? estimatedLossAmount, decimal? approvedPayoutAmount, CancellationToken ct = default)
         {
             var incident = await _incidentRepository.GetByIdAsync(incidentId, ct);
 
             if (incident is null)
-                return Result.Fail(new Error("Incident.NotFound", "Incident does not exist."));
+                return Result<int>.Fail(new Error("Incident.NotFound", "Incident does not exist."));
 
             var claimStatus = await _claimStatusRepository.GetByIdAsync(claimStatusId, ct);
 
             if (claimStatus is null)
-                return Result.Fail(new Error("ClaimStatus.NotFound", "Claim status does not exist."));
+                return Result<int>.Fail(new Error("ClaimStatus.NotFound", "Claim status does not exist."));
 
             var claim = new Claim
             {
@@ -39,14 +39,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ApprovedPayoutAmount = approvedPayoutAmount
             };
 
-            await _claimRepository.CreateAsync(claim, ct);
+            var claimId = await _claimRepository.CreateAsync(claim, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(claimId);
         }
 
         public async Task<Result> DeleteClaimAsync(int claimId, CancellationToken ct = default)
         {
-            await _claimRepository.DeleteAsync(claimId, ct);
+            var affectedRows = await _claimRepository.DeleteAsync(claimId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Claim.NotFound", "Claim does not exist."));
 
             return Result.Ok();
         }
@@ -91,7 +94,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ApprovedPayoutAmount = approvedPayoutAmount
             };
 
-            await _claimRepository.UpdateAsync(claim, ct);
+            var affectedRows = await _claimRepository.UpdateAsync(claim, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Claim.NotFound", "Claim does not exist."));
 
             return Result.Ok();
         }

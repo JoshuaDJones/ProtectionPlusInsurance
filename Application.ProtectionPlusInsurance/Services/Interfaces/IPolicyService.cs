@@ -8,7 +8,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
         Task<Result<List<PolicyDto>>> GetPoliciesAsync(int pageNumber = 1, int pageSize = 10, 
             CancellationToken ct = default);
         Task<Result<PolicyDto?>> GetPolicyByIdAsync(int policyId, CancellationToken ct = default);
-        Task<Result> CreatePolicyAsync(int policyHolderId, int policyStatusId, 
+        Task<Result<int>> CreatePolicyAsync(int policyHolderId, int policyStatusId, 
             int propertyId, string policyNumber, decimal coverageAmount, 
             decimal deductible, DateTime effectiveDate, DateTime expirationDate, 
             CancellationToken ct = default);

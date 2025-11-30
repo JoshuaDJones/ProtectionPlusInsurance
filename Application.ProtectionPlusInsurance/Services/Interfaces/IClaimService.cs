@@ -10,7 +10,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
 
         Task<Result<ClaimDto?>> GetClaimByIdAsync(int claimId, CancellationToken ct = default);
 
-        Task<Result> CreateClaimAsync(int incidentId, int claimStatusId, string claimNumber, 
+        Task<Result<int>> CreateClaimAsync(int incidentId, int claimStatusId, string claimNumber, 
             decimal? estimatedLossAmount, decimal? approvedPayoutAmount, CancellationToken ct = default);
 
         Task<Result> UpdateClaimAsync(int claimId, int incidentId, int claimStatusId, string claimNumber,

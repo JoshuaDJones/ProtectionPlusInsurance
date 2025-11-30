@@ -31,6 +31,8 @@ BEGIN
 		DateOfIncident = @DateOfIncident,
 		Description = @Description
 	WHERE IncidentId = @IncidentId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

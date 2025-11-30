@@ -13,24 +13,24 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sql;
         }
 
-        public async Task CreateAsync(IncidentType entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(IncidentType entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@IncidentName", entity.IncidentName }
             };
 
-            await _sql.ExecuteAsync("CreateIncidentType", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreateIncidentType", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@IncidentTypeId", id }
             };
 
-            await _sql.ExecuteAsync("DeleteIncidentType", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeleteIncidentType", parameters, ct);
         }
 
         public async Task<IncidentType?> GetByIdAsync(int id, CancellationToken ct = default)
@@ -66,7 +66,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             return list;
         }
 
-        public async Task UpdateAsync(IncidentType entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(IncidentType entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -74,7 +74,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@IncidentName", entity.IncidentName }
             };
 
-            await _sql.ExecuteAsync("UpdateIncidentType", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdateIncidentType", parameters, ct);
         }
 
         private IncidentType Map(DataRow row)

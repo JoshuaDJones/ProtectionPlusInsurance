@@ -13,7 +13,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sqlExecutor;
         }
 
-        public async Task CreateAsync(ClaimPayment entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(ClaimPayment entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -24,10 +24,10 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@ReferenceNumber", entity.ReferenceNumber }
             };
 
-            await _sql.ExecuteAsync("CreateClaimPayment", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreateClaimPayment", parameters, ct);
         }
 
-        public async Task UpdateAsync(ClaimPayment entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(ClaimPayment entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -39,17 +39,17 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@ReferenceNumber", entity.ReferenceNumber }
             };
 
-            await _sql.ExecuteAsync("UpdateClaimPayment", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdateClaimPayment", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@ClaimPaymentId", id }
             };
 
-            await _sql.ExecuteAsync("DeleteClaimPayment", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeleteClaimPayment", parameters, ct);
         }
 
         public async Task<ClaimPayment?> GetByIdAsync(int id, CancellationToken ct = default)

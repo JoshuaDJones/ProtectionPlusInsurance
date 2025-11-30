@@ -28,5 +28,7 @@ BEGIN
 	(
 		@IncidentName
 	);
+
+	SELECT SCOPE_IDENTITY() AS IncidentTypeId;
 END
 GO

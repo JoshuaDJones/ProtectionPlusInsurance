@@ -24,5 +24,7 @@ BEGIN
 	UPDATE PropertyType
 	SET TypeName = @TypeName
 	WHERE PropertyTypeId = @PropertyTypeId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

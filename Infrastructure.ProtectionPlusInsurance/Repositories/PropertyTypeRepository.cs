@@ -13,24 +13,24 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sql;
         }
 
-        public async Task CreateAsync(PropertyType entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(PropertyType entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@TypeName", entity.TypeName }
             };
 
-            await _sql.ExecuteAsync("CreatePropertyType", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreatePropertyType", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@PropertyTypeId", id }
             };
 
-            await _sql.ExecuteAsync("DeletePropertyType", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeletePropertyType", parameters, ct);
         }
 
         public async Task<PropertyType?> GetByIdAsync(int id, CancellationToken ct = default)
@@ -66,7 +66,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             return list;
         }
 
-        public async Task UpdateAsync(PropertyType entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(PropertyType entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -74,7 +74,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@TypeName", entity.TypeName }
             };
 
-            await _sql.ExecuteAsync("UpdatePropertyType", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdatePropertyType", parameters, ct);
         }
 
         private PropertyType Map(DataRow row)

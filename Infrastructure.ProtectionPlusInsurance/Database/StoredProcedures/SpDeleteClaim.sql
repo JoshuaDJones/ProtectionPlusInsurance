@@ -22,7 +22,9 @@ BEGIN
 	SET NOCOUNT ON;
 
     DELETE FROM Claim
-	WHERE ClaimId = @ClaimId
+	WHERE ClaimId = @ClaimId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

@@ -22,7 +22,9 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DELETE FROM PolicyHolder
-	WHERE PolicyHolderId = @PolicyHolderId
+	WHERE PolicyHolderId = @PolicyHolderId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

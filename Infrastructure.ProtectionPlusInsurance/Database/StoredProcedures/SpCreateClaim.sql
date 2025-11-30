@@ -40,7 +40,9 @@ BEGIN
 		@ClaimNumber,
 		@EstimatedLossAmount,
 		@ApprovedPayoutAmount
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS ClaimId;
 END
 GO
 

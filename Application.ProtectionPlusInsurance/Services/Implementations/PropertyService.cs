@@ -19,19 +19,19 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _propertyTypeRepository = propertyTypeRepository;
         }
 
-        public async Task<Result> CreatePropertyAsync(int policyHolderId, string address, 
+        public async Task<Result<int>> CreatePropertyAsync(int policyHolderId, string address, 
             string city, string state, string zip, int propertyTypeId, int? yearBuilt, 
             CancellationToken ct = default)
         {
             var policyHolder = await _policyHolderRepository.GetByIdAsync(policyHolderId, ct);
 
             if (policyHolder is null)
-                return Result.Fail(new Error("PolicyHolder.NotFound", "Policy holder does not exist."));
+                return Result<int>.Fail(new Error("PolicyHolder.NotFound", "Policy holder does not exist."));
 
             var propertyType = await _propertyTypeRepository.GetByIdAsync(propertyTypeId, ct);
 
             if (propertyType is null)
-                return Result.Fail(new Error("PropertyType.NotFound", "Property type does not exist."));
+                return Result<int>.Fail(new Error("PropertyType.NotFound", "Property type does not exist."));
 
             var property = new Property
             {
@@ -44,14 +44,17 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 YearBuilt = yearBuilt,
             };
 
-            await _propertyRepository.CreateAsync(property, ct);
+            var propertyId = await _propertyRepository.CreateAsync(property, ct);
 
-            return Result.Ok();
+            return Result<int>.Ok(propertyId);
         }
 
         public async Task<Result> DeletePropertyAsync(int propertyId, CancellationToken ct = default)
         {
-            await _propertyRepository.DeleteAsync(propertyId, ct);
+            var affectedRows = await _propertyRepository.DeleteAsync(propertyId, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Property.NotFound", "Property does not exist."));
 
             return Result.Ok();
         }
@@ -98,7 +101,10 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 YearBuilt = yearBuilt,
             };
 
-            await _propertyRepository.UpdateAsync(property, ct);
+            var affectedRows = await _propertyRepository.UpdateAsync(property, ct);
+
+            if (affectedRows == 0)
+                return Result.Fail(new Error("Property.NotFound", "Property does not exist."));
 
             return Result.Ok();
         }

@@ -23,5 +23,7 @@ BEGIN
 	UPDATE IncidentType
 	Set IncidentName = @IncidentName
 	WHERE IncidentTypeId = @IncidentTypeId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

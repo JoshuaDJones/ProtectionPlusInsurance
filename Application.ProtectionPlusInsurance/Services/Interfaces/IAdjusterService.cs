@@ -10,7 +10,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
 
         Task<Result<AdjusterDto?>> GetAdjusterByIdAsync(int adjusterId, CancellationToken ct = default);
 
-        Task<Result> CreateAdjusterAsync(string firstName, string lastName, string email, string phone, 
+        Task<Result<int>> CreateAdjusterAsync(string firstName, string lastName, string email, string phone, 
             CancellationToken ct = default);
 
         Task<Result> UpdateAdjusterAsync(int adjusterId, string firstName, string lastName, 

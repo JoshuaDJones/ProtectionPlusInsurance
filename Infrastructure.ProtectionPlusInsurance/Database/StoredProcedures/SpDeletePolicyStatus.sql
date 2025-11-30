@@ -22,5 +22,7 @@ BEGIN
 
     DELETE FROM PolicyStatus
 	WHERE PolicyStatusId = @PolicyStatusId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

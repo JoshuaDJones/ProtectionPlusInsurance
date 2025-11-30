@@ -38,6 +38,8 @@ BEGIN
 		PropertyTypeId = @PropertyTypeId,
 		YearBuilt = @YearBuilt
 	WHERE PropertyId = @PropertyId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

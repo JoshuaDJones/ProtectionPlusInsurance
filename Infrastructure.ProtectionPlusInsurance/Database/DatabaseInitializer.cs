@@ -13,7 +13,6 @@ namespace Infrastructure.ProtectionPlusInsurance.Database
         {
             _connectionString = config.GetConnectionString("DefaultConnection") ?? string.Empty;
 
-            // Load the main DB creation SQL as embedded resource
             _dbCreationScript = ReadEmbeddedResource(
                 "Infrastructure.ProtectionPlusInsurance.Database.CreateProtectionPlusInsuranceDB.sql"
             );
@@ -37,7 +36,6 @@ namespace Infrastructure.ProtectionPlusInsurance.Database
                 cmd.ExecuteNonQuery();
             }
 
-            // Apply all stored procedures (embedded resources)
             ApplyStoredProcedures();
         }
 
@@ -45,10 +43,8 @@ namespace Infrastructure.ProtectionPlusInsurance.Database
         {
             var assembly = Assembly.GetExecutingAssembly();
 
-            // All embedded stored procedures start with this prefix
             const string spPrefix = "Infrastructure.ProtectionPlusInsurance.Database.StoredProcedures.";
 
-            // Find all embedded SQL resources in the StoredProcedures folder
             var resourceNames = assembly
                 .GetManifestResourceNames()
                 .Where(r => r.StartsWith(spPrefix) && r.EndsWith(".sql"));

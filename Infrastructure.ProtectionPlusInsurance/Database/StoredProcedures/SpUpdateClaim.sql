@@ -33,7 +33,9 @@ BEGIN
 		EstimatedLossAmount = @EstimatedLossAmount,
 		ApprovedPayoutAmount = @ApprovedPayoutAmount,
 		LastUpdated = GETDATE()
-	WHERE ClaimId = @ClaimId
+	WHERE ClaimId = @ClaimId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO
 

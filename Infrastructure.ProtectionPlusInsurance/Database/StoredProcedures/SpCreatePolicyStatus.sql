@@ -27,6 +27,8 @@ BEGIN
 	VALUES
 	(
 		@StatusName
-	)
+	);
+
+	SELECT SCOPE_IDENTITY() AS PolicyStatusId;
 END
 GO

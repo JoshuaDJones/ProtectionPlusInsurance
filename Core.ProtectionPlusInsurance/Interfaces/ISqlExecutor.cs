@@ -12,5 +12,10 @@ namespace Core.ProtectionPlusInsurance.Interfaces
             string storedProc,
             Dictionary<string, object> parameters,
             CancellationToken ct = default);
+
+        public Task<T> ExecuteScalarAsync<T>(
+            string storedProc,
+            Dictionary<string, object> parameters,
+            CancellationToken ct = default);
     }
 }

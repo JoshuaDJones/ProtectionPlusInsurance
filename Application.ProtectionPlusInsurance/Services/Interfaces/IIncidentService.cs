@@ -11,7 +11,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
         Task<Result<IncidentDto?>> GetIncidentByIdAsync(int incidentId, 
             CancellationToken ct = default);
 
-        Task<Result> CreateIncidentAsync(int policyId, int incidentTypeId, DateTime dateOfIncident, 
+        Task<Result<int>> CreateIncidentAsync(int policyId, int incidentTypeId, DateTime dateOfIncident, 
             string? description, DateTime ReportedDate, CancellationToken ct = default);
 
         Task<Result> UpdateIncidentAsync(int incidentId, int policyId, int incidentTypeId, 

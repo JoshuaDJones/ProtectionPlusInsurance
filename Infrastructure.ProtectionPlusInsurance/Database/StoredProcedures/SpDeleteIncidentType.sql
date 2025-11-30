@@ -21,5 +21,7 @@ BEGIN
 
     DELETE FROM IncidentType
 	WHERE IncidentTypeId = @IncidentTypeId;
+
+	SELECT @@ROWCOUNT AS RowsAffected;
 END
 GO

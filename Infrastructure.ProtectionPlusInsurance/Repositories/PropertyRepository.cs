@@ -13,7 +13,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             _sql = sqlExecutor;
         }
 
-        public async Task CreateAsync(Property entity, CancellationToken ct = default)
+        public async Task<int> CreateAsync(Property entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -26,10 +26,10 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@YearBuilt", entity.YearBuilt }
             };
 
-            await _sql.ExecuteAsync("CreateProperty", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("CreateProperty", parameters, ct);
         }
 
-        public async Task UpdateAsync(Property entity, CancellationToken ct = default)
+        public async Task<int> UpdateAsync(Property entity, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
@@ -43,17 +43,17 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@YearBuilt", entity.YearBuilt }
             };
 
-            await _sql.ExecuteAsync("UpdateProperty", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("UpdateProperty", parameters, ct);
         }
 
-        public async Task DeleteAsync(int id, CancellationToken ct = default)
+        public async Task<int> DeleteAsync(int id, CancellationToken ct = default)
         {
             var parameters = new Dictionary<string, object>
             {
                 { "@PropertyId", id }
             };
 
-            await _sql.ExecuteAsync("DeleteProperty", parameters, ct);
+            return await _sql.ExecuteScalarAsync<int>("DeleteProperty", parameters, ct);
         }
 
         public async Task<Property?> GetByIdAsync(int id, CancellationToken ct = default)
