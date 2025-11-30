@@ -1,0 +1,23 @@
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+
+# Ignore build artifacts
+bin/
+obj/
+
+# Ignore test results
+TestResults/
+
+# Ignore local configs
+appsettings.Development.json
+appsettings.Local.json
+
+# Ignore SQLite files if any
+*.db
+*.sqlite
+
+# OS junk
+*.DS_Store
+Thumbs.db
