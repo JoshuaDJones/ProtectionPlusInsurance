@@ -25,11 +25,6 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             if(claim is null)
                 return Result<int>.Fail(new Error("Claim.NotFound", "Claim does not exist"));
 
-            var claimPaymentMethod = await _claimPaymentRepository.GetByIdAsync(claimPaymentMethodId, ct);
-
-            if (claimPaymentMethod is null)
-                return Result<int>.Fail(new Error("ClaimPaymentMethod.NotFound", "Claim payment method does not exist."));
-
             var claimPayment = new ClaimPayment
             {
                 ClaimId = claimId,

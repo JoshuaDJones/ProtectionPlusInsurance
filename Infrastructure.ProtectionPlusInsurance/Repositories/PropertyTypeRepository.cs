@@ -40,7 +40,7 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
                 { "@PropertyTypeId", id }
             };
 
-            DataTable dt = await _sql.GetDataTableAsync("GetPropertyTypeId", parameters, ct);
+            DataTable dt = await _sql.GetDataTableAsync("GetPropertyTypeById", parameters, ct);
 
             if (dt.Rows.Count == 0)
                 return null;

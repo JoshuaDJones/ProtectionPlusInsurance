@@ -14,8 +14,7 @@ namespace Application.ProtectionPlusInsurance.Services.Interfaces
             decimal? estimatedLossAmount, decimal? approvedPayoutAmount, CancellationToken ct = default);
 
         Task<Result> UpdateClaimAsync(int claimId, int incidentId, int claimStatusId, string claimNumber,
-            decimal? estimatedLossAmount, decimal? approvedPayoutAmount, DateTime createdDate,
-            DateTime lastUpdated, CancellationToken ct = default);
+            decimal? estimatedLossAmount, decimal? approvedPayoutAmount, CancellationToken ct = default);
 
         Task<Result> DeleteClaimAsync(int claimId, CancellationToken ct = default);
     }

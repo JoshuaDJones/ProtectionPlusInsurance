@@ -16,7 +16,10 @@ namespace Application.ProtectionPlusInsurance
             services.AddScoped<IPolicyHolderService, PolicyHolderService>();
             services.AddScoped<IPolicyService, PolicyService>();
             services.AddScoped<IPropertyService, PropertyService>();
-
+            services.AddScoped<IPropertyTypeService, PropertyTypeService>();
+            services.AddScoped<IClaimStatusService, ClaimStatusService>();
+            services.AddScoped<IIncidentTypeService, IncidentTypeService>();
+            services.AddScoped<IPolicyStatusService, PolicyStatusService>();
             return services;
         }
     }

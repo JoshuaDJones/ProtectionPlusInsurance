@@ -19,7 +19,7 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             _claimRepository = claimRepository;
         }
 
-        public async Task<Result<int>> CreateClaimAdjusterAsync(int claimId, int adjusterId, DateTime assignedDate, CancellationToken ct = default)
+        public async Task<Result<int>> CreateClaimAdjusterAsync(int claimId, int adjusterId, CancellationToken ct = default)
         {
             var adjuster = await _adjusterRepository.GetByIdAsync(adjusterId, ct);
 
@@ -35,7 +35,6 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             {
                 ClaimId = claimId,
                 AdjusterId = adjusterId,
-                AssignedDate = assignedDate,
             };
 
             var claimAdjusterId = await _claimAdjusterRepository.CreateAsync(claimAdjuster, ct);
@@ -71,7 +70,7 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             return Result<List<ClaimAdjusterDto>>.Ok(claimAdjusterDtos);
         }
 
-        public async Task<Result> UpdateClaimAdjusterAsync(int claimAdjusterId, int claimId, int adjusterId, DateTime assignedDate, CancellationToken ct = default)
+        public async Task<Result> UpdateClaimAdjusterAsync(int claimAdjusterId, int claimId, int adjusterId, CancellationToken ct = default)
         {
             var adjuster = await _adjusterRepository.GetByIdAsync(adjusterId, ct);
 
@@ -88,7 +87,6 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 ClaimAdjusterId = claimAdjusterId,
                 ClaimId = claimId,
                 AdjusterId = adjusterId,
-                AssignedDate = assignedDate,
             };
 
             var affectedRows = await _claimAdjusterRepository.UpdateAsync(claimAdjuster, ct);

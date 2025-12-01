@@ -3,6 +3,6 @@
     public class ClaimStatusDto
     {
         public int ClaimStatusId { get; set; }
-        public string Statusname { get; set; } = string.Empty;
+        public string StatusName { get; set; } = string.Empty;
     }
 }

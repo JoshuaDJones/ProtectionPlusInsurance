@@ -72,7 +72,7 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             return Result<List<ClaimDto>>.Ok(claimDtos);
         }
 
-        public async Task<Result> UpdateClaimAsync(int claimId, int incidentId, int claimStatusId, string claimNumber, decimal? estimatedLossAmount, decimal? approvedPayoutAmount, DateTime createdDate, DateTime lastUpdated, CancellationToken ct = default)
+        public async Task<Result> UpdateClaimAsync(int claimId, int incidentId, int claimStatusId, string claimNumber, decimal? estimatedLossAmount, decimal? approvedPayoutAmount, CancellationToken ct = default)
         {
             var incident = await _incidentRepository.GetByIdAsync(incidentId, ct);
 

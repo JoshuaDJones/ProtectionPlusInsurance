@@ -9,7 +9,7 @@ namespace Core.ProtectionPlusInsurance.Entities
             return new ClaimStatusDto
             {
                 ClaimStatusId = claimStatus.ClaimStatusId,
-                Statusname = claimStatus.Statusname,
+                StatusName = claimStatus.Statusname,
             };
         }
     }

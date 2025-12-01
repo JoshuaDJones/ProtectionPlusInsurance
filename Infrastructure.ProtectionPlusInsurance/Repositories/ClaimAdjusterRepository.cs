@@ -19,7 +19,6 @@ namespace Infrastructure.ProtectionPlusInsurance.Repositories
             {
                 { "@ClaimId", entity.ClaimId },
                 { "@AdjusterId", entity.AdjusterId },
-                { "@AssignedDate", entity.AssignedDate }
             };
 
             return await _sql.ExecuteScalarAsync<int>("CreateClaimAdjuster", parameters, ct);

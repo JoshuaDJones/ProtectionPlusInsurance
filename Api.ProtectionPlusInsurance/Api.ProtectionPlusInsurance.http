@@ -1,6 +1,0 @@
-@Api.ProtectionPlusInsurance_HostAddress = http://localhost:5268
-
-GET {{Api.ProtectionPlusInsurance_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

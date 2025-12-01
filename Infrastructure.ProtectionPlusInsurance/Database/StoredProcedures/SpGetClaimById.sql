@@ -25,6 +25,7 @@ BEGIN
 		ClaimId,
 		IncidentId,
 		ClaimStatusId,
+		ClaimNumber,
 		EstimatedLossAmount,
 		ApprovedPayoutAmount,
 		CreatedDate,

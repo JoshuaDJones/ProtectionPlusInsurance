@@ -16,7 +16,7 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
         }
 
         public async Task<Result<int>> CreatePolicyHolderAsync(string firstName, string lastName, string email, 
-            string phone, DateTime createdDate, CancellationToken ct = default)
+            string phone, CancellationToken ct = default)
         {
             var policyHolder = new PolicyHolder
             {
@@ -24,7 +24,6 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 LastName = lastName,
                 Email = email,
                 Phone = phone,
-                CreatedDate = createdDate,
             };
 
             var policyHolderId = await _policyHolderRepository.CreateAsync(policyHolder, ct);
@@ -60,7 +59,7 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
             return Result<List<PolicyHolderDto>>.Ok(policyHolderDtos);
         }
 
-        public async Task<Result> UpdatePolicyHolderAsync(int policyHolderId, string firstName, string lastName, string email, string phone, DateTime createdDate, CancellationToken ct = default)
+        public async Task<Result> UpdatePolicyHolderAsync(int policyHolderId, string firstName, string lastName, string email, string phone, CancellationToken ct = default)
         {
             var policyHolder = new PolicyHolder
             {
@@ -69,7 +68,6 @@ namespace Application.ProtectionPlusInsurance.Services.Implementations
                 LastName = lastName,
                 Email = email,
                 Phone = phone,
-                CreatedDate = createdDate,
             };
 
             var affectedRows = await _policyHolderRepository.UpdateAsync(policyHolder, ct);
